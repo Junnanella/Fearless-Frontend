@@ -85,10 +85,13 @@ services:
   database:
     image: postgres
     volumes:
-      - ./database/data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
       - ./database/setup:/docker-entrypoint-initdb.d
     environment:
       - POSTGRES_MULTIPLE_DATABASES=monolith,attendees
       - POSTGRES_PASSWORD=test-databases
     ports:
       - 15432:5432
+
+volumes: 
+  postgres_data:
