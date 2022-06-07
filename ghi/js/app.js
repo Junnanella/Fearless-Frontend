@@ -1,3 +1,14 @@
+function createCard(name, description, pictureUrl) {
+  return `
+    <div class="card">
+        <img src="${pictureUrl}" class="card-img-top">
+        <div class="card-body">
+        <h5 class="card-title">${name}</h5>
+        <p class="card-text">${description}</p>
+    </div>
+    `;
+}
+
 window.addEventListener("DOMContentLoaded", async () => {
   const url = "http://localhost:8000/api/conferences/";
 
@@ -10,21 +21,22 @@ window.addEventListener("DOMContentLoaded", async () => {
     } else {
       const data = await response.json();
 
-      const conference = data.conferences[0];
-      const conferenceName = document.querySelector(".card-title");
-      conferenceName.innerHTML = conference.name;
-
-      const detailUrl = `http://localhost:8000${conference.href}`;
-      const detailResponse = await fetch(detailUrl);
-      if (detailResponse.ok) {
-        const details = await detailResponse.json();
-
-        const description = details.conference;
-        const conferenceDescription = document.querySelector(".card-text");
-        conferenceDescription.innerHTML = description.description;
+      for (let conference of data.conferences) {
+        const detailUrl = `http://localhost:8000${conference.href}`;
+        const detailResponse = await fetch(detailUrl);
+        if (detailResponse.ok) {
+          const details = await detailResponse.json();
+          const name = details.conference.name;
+          const description = details.conference.description;
+          const pictureUrl = details.conference.location.picture_url;
+          const html = createCard(name, description, pictureUrl);
+          const column = document.querySelector(".col");
+          column.innerHTML += html;
+        }
       }
     }
   } catch (e) {
+    console.error(e);
     // Figure out what to do if an error is raised
     (error) => console.error("error", error);
   }
