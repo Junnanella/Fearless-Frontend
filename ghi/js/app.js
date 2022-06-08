@@ -40,14 +40,17 @@ window.addEventListener("DOMContentLoaded", async () => {
           const locationName = details.conference.location.name;
           const description = details.conference.description;
           const pictureUrl = details.conference.location.picture_url;
-          const startDate = details.conference.starts;
-          const endDate = details.conference.ends;
+          const enUSFormatter = new Intl.DateTimeFormat("en-US");
+          const startDate = new Date(details.conference.starts);
+          const startString = enUSFormatter.format(startDate);
+          const endDate = new Date(details.conference.ends);
+          const endString = enUSFormatter.format(endDate);
           const html = createCard(
             name,
             description,
             pictureUrl,
-            startDate,
-            endDate,
+            startString,
+            endString,
             locationName
           );
           const row = document.querySelector(".row");
