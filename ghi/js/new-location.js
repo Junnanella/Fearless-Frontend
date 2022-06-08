@@ -12,6 +12,14 @@ window.addEventListener("DOMContentLoaded", async () => {
     // Get the select tag element by its id 'state'
     const selectTag = document.querySelector("select#state");
 
+    const formTag = document.getElementById("create-location-form");
+    formTag.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const formData = new FormData(formTag);
+      const json = JSON.stringify(Object.fromEntries(formData));
+      console.log(json);
+    });
+
     // For each state in the states property of the data
     for (const state of data.states) {
       // Create an 'option' element
