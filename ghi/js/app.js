@@ -1,10 +1,20 @@
-function createCard(name, description, pictureUrl) {
+function createCard(
+  name,
+  description,
+  pictureUrl,
+  startDate,
+  endDate,
+  locationName
+) {
   return `
-    <div class="card">
-        <img src="${pictureUrl}" class="card-img-top">
-        <div class="card-body">
+    <div class="card border-0 shadow p-3 mb-5 bg-body rounded m-1">
+        <img src=${pictureUrl} class="card-img-top">
+        <div class="card-body ">
         <h5 class="card-title">${name}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">${locationName}</h6>
         <p class="card-text">${description}</p>
+        </div>
+        <p class="card-footer card-text">${startDate} - ${endDate}</p>
     </div>
     `;
 }
@@ -27,11 +37,21 @@ window.addEventListener("DOMContentLoaded", async () => {
         if (detailResponse.ok) {
           const details = await detailResponse.json();
           const name = details.conference.name;
+          const locationName = details.conference.location.name;
           const description = details.conference.description;
           const pictureUrl = details.conference.location.picture_url;
-          const html = createCard(name, description, pictureUrl);
-          const column = document.querySelector(".col");
-          column.innerHTML += html;
+          const startDate = details.conference.starts;
+          const endDate = details.conference.ends;
+          const html = createCard(
+            name,
+            description,
+            pictureUrl,
+            startDate,
+            endDate,
+            locationName
+          );
+          const row = document.querySelector(".row");
+          row.innerHTML += html;
         }
       }
     }
