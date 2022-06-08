@@ -2,6 +2,7 @@
 window.addEventListener("DOMContentLoaded", async () => {
   // declare a variable that will hold the URL for the API
   const url = "http://localhost:8000/api/states/";
+
   // fetch the URL, use await so that we get a response and not a promise
   const response = await fetch(url);
 
@@ -11,14 +12,6 @@ window.addEventListener("DOMContentLoaded", async () => {
 
     // Get the select tag element by its id 'state'
     const selectTag = document.querySelector("select#state");
-
-    const formTag = document.getElementById("create-location-form");
-    formTag.addEventListener("submit", (event) => {
-      event.preventDefault();
-      const formData = new FormData(formTag);
-      const json = JSON.stringify(Object.fromEntries(formData));
-      console.log(json);
-    });
 
     // For each state in the states property of the data
     for (const state of data.states) {
@@ -34,4 +27,24 @@ window.addEventListener("DOMContentLoaded", async () => {
       selectTag.appendChild(option);
     }
   }
+
+  const formTag = document.getElementById("create-location-form");
+  formTag.addEventListener("submit", async function (event) {
+    event.preventDefault();
+    const formData = new FormData(formTag);
+    const json = JSON.stringify(Object.fromEntries(formData));
+    const locationUrl = "http://localhost:8000/api/locations/";
+    const fetchConfig = {
+      method: "post",
+      body: json,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const response = await fetch(locationUrl, fetchConfig);
+    if (response.ok) {
+      formTag.reset();
+      const newLocation = await response.json();
+    }
+  });
 });
