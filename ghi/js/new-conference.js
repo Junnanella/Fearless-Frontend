@@ -30,7 +30,6 @@ window.addEventListener("DOMContentLoaded", async () => {
       },
     };
     const response = await fetch(conferenceUrl, fetchConfig);
-    console.log("json:", json, "fetchConfig:", fetchConfig);
     if (response.ok) {
       formTag.reset();
       const newLocation = await response.json();
