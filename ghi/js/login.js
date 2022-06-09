@@ -1,4 +1,4 @@
-window.addEventListener("DOMContentLoaded", () => {
+window.addEventListener("DOMContentLoaded", async () => {
   const form = document.getElementById("login-form");
   form.addEventListener("submit", async (event) => {
     event.preventDefault();

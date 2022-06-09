@@ -37,7 +37,6 @@ window.addEventListener("DOMContentLoaded", async () => {
     const response = await fetch(attendeesUrl, fetchConfig);
     if (response.ok) {
       formTag.reset();
-      const newAttendee = await response.json();
       formTag.classList.add("d-none");
       const successTag = document.getElementById("success-message");
       successTag.classList.remove("d-none");
