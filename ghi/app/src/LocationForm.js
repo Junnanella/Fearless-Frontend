@@ -4,6 +4,9 @@ class LocationForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = { states: [] };
+    this.handleNameChange = this.handleNameChange.bind(this);
+    this.handleRoomCountChange = this.handleRoomCountChange.bind(this);
+    this.handleCityChange = this.handleCityChange.bind(this);
   }
 
   async componentDidMount() {
@@ -17,6 +20,22 @@ class LocationForm extends React.Component {
       this.setState({ states: data.states });
     }
   }
+
+  handleNameChange(event) {
+    const value = event.target.value;
+    this.setState({ name: value });
+  }
+
+  handleRoomCountChange(event) {
+    const value = event.target.value;
+    this.setState({ room_count: value });
+  }
+
+  handleCityChange(event) {
+    const value = event.target.value;
+    this.setState({ city: value });
+  }
+
   render() {
     return (
       <div className="row">
@@ -26,6 +45,7 @@ class LocationForm extends React.Component {
             <form id="create-location-form">
               <div className="form-floating mb-3">
                 <input
+                  onChange={this.handleNameChange}
                   placeholder="Name"
                   required
                   type="text"
@@ -37,6 +57,7 @@ class LocationForm extends React.Component {
               </div>
               <div className="form-floating mb-3">
                 <input
+                  onChange={this.handleRoomCountChange}
                   placeholder="Room count"
                   required
                   type="number"
@@ -48,6 +69,7 @@ class LocationForm extends React.Component {
               </div>
               <div className="form-floating mb-3">
                 <input
+                  onChange={this.handleCityChange}
                   placeholder="City"
                   required
                   type="text"
