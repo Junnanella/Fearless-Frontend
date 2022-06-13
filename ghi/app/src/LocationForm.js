@@ -3,10 +3,17 @@ import React from "react";
 class LocationForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { states: [] };
+    this.state = {
+      name: "",
+      roomCount: "",
+      city: "",
+      states: [],
+    };
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleRoomCountChange = this.handleRoomCountChange.bind(this);
     this.handleCityChange = this.handleCityChange.bind(this);
+    this.handleStateChange = this.handleStateChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   async componentDidMount() {
@@ -28,12 +35,48 @@ class LocationForm extends React.Component {
 
   handleRoomCountChange(event) {
     const value = event.target.value;
-    this.setState({ room_count: value });
+    this.setState({ roomCount: value });
   }
 
   handleCityChange(event) {
     const value = event.target.value;
     this.setState({ city: value });
+  }
+
+  handleStateChange(event) {
+    const value = event.target.value;
+    this.setState({ state: value });
+  }
+
+  async handleSubmit(event) {
+    event.preventDefault();
+    const data = { ...this.state };
+    data.room_count = data.roomCount;
+    delete data.roomCount;
+    delete data.states;
+    console.log(data);
+
+    const locationUrl = "http://localhost:8000/api/locations/";
+    const fetchConfig = {
+      method: "post",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const response = await fetch(locationUrl, fetchConfig);
+    if (response.ok) {
+      const newLocation = await response.json();
+      console.log(newLocation);
+
+      const cleared = {
+        name: "",
+        roomCount: "",
+        city: "",
+        state: "",
+      };
+      this.setState(cleared);
+    }
   }
 
   render() {
@@ -42,7 +85,7 @@ class LocationForm extends React.Component {
         <div className="offset-3 col-6">
           <div className="shadow p-4 mt-4 bg-white">
             <h1>Create a new location</h1>
-            <form id="create-location-form">
+            <form onSubmit={this.handleSubmit} id="create-location-form">
               <div className="form-floating mb-3">
                 <input
                   onChange={this.handleNameChange}
@@ -52,6 +95,7 @@ class LocationForm extends React.Component {
                   id="name"
                   className="form-control"
                   name="name"
+                  value={this.state.name}
                 />
                 <label htmlFor="name">Name</label>
               </div>
@@ -64,6 +108,7 @@ class LocationForm extends React.Component {
                   id="room_count"
                   className="form-control"
                   name="room_count"
+                  value={this.state.roomCount}
                 />
                 <label htmlFor="room_count">Room count</label>
               </div>
@@ -76,15 +121,18 @@ class LocationForm extends React.Component {
                   id="city"
                   className="form-control"
                   name="city"
+                  value={this.state.city}
                 />
                 <label htmlFor="city">City</label>
               </div>
               <div className="mb-3">
                 <select
+                  onChange={this.handleStateChange}
                   required
                   name="state"
                   id="state"
                   className="form-select"
+                  value={this.state.state}
                 >
                   <option value="">Choose a state</option>
                   {this.state.states.map((state) => {
