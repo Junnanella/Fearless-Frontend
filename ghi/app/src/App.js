@@ -2,8 +2,10 @@ import logo from "./logo.svg";
 import "./App.css";
 import Nav from "./Nav";
 import React from "react";
-// import AttendeesList from "./AttendeesList";
+import AttendeesList from "./AttendeesList";
 import LocationForm from "./LocationForm";
+import ConferenceForm from "./ConferenceForm";
+import AttendConferenceForm from "./AttendConferenceForm";
 
 function App(props) {
   if (props.attendees === undefined) {
@@ -13,8 +15,10 @@ function App(props) {
     <>
       <Nav />
       <div className="container">
+        <ConferenceForm />
         <LocationForm />
-        {/* <AttendeesList attendees={props.attendees} /> */}
+        <AttendeesList attendees={props.attendees} />
+        <AttendConferenceForm />
       </div>
     </>
   );
