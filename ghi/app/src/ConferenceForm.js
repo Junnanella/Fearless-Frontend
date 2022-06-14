@@ -1,4 +1,5 @@
 import React from "react";
+import logo from "./logo.svg";
 
 class ConferenceForm extends React.Component {
   constructor(props) {
