@@ -28,7 +28,7 @@ function Nav() {
                 Home
               </NavLink>
             </li>
-            <li id="new-location" className="nav-item d-none">
+            <li id="new-location" className="nav-item">
               <NavLink
                 className="nav-link"
                 aria-current="page"
@@ -37,7 +37,7 @@ function Nav() {
                 New location
               </NavLink>
             </li>
-            <li id="new-conference" className="nav-item d-none">
+            <li id="new-conference" className="nav-item">
               <NavLink
                 className="nav-link"
                 aria-current="page"
@@ -46,7 +46,7 @@ function Nav() {
                 New conference
               </NavLink>
             </li>
-            <li className="nav-item d-none">
+            <li className="nav-item ">
               <NavLink
                 className="nav-link"
                 aria-current="page"
