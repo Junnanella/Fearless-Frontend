@@ -20,12 +20,24 @@ class PresentationForm extends React.Component {
     this.handleChangeCompany = this.handleChangeCompany.bind(this);
     this.handleChangeTitle = this.handleChangeTitle.bind(this);
     this.handleChangeSynopsis = this.handleChangeSynopsis.bind(this);
+    this.handleChangeConference = this.handleChangeConference.bind(this);
+  }
+
+  async componentDidMount() {
+    const url = "http://localhost:8000/api/conferences";
+
+    const response = await fetch(url);
+
+    if (response.ok) {
+      const data = await response.json();
+      this.setState({ conferences: data.conferences });
+    }
   }
 
   //   handlers
   handleChangeName(event) {
     const value = event.target.value;
-    this.setState({ name: value });
+    this.setState({ presenter_name: value });
   }
 
   handleChangeEmail(event) {
@@ -48,12 +60,18 @@ class PresentationForm extends React.Component {
     this.setState({ synopsis: value });
   }
 
+  handleChangeConference(event) {
+    const value = event.target.value;
+    this.setState({ conference: value });
+  }
+
   async handleSubmit(event) {
     event.preventDefault();
     const data = { ...this.state };
     delete data.conferences;
 
-    const presentationUrl = "http://localhost:8000/api/conferences/";
+    const conferenceId = this.state.conference;
+    const presentationUrl = `http://localhost:8000/api/conferences/${conferenceId}/presentations/`;
     const fetchConfig = {
       method: "post",
       body: JSON.stringify(data),
@@ -63,6 +81,8 @@ class PresentationForm extends React.Component {
     };
     const response = await fetch(presentationUrl, fetchConfig);
     if (response.ok) {
+      const newPresentation = await response.json();
+      console.log(newPresentation);
       this.setState({
         presenter_name: "",
         presenter_email: "",
@@ -84,6 +104,7 @@ class PresentationForm extends React.Component {
               <div className="form-floating mb-3">
                 <input
                   onChange={this.handleChangeName}
+                  value={this.state.presenter_name}
                   placeholder="Presenter name"
                   required
                   type="text"
@@ -96,6 +117,7 @@ class PresentationForm extends React.Component {
               <div className="form-floating mb-3">
                 <input
                   onChange={this.handleChangeEmail}
+                  value={this.state.presenter_email}
                   placeholder="Presenter email"
                   required
                   type="email"
@@ -108,6 +130,7 @@ class PresentationForm extends React.Component {
               <div className="form-floating mb-3">
                 <input
                   onChange={this.handleChangeCompany}
+                  value={this.state.company_name}
                   placeholder="Company name"
                   type="text"
                   name="company_name"
@@ -119,6 +142,7 @@ class PresentationForm extends React.Component {
               <div className="form-floating mb-3">
                 <input
                   onChange={this.handleChangeTitle}
+                  value={this.state.title}
                   placeholder="Title"
                   required
                   type="text"
@@ -132,6 +156,7 @@ class PresentationForm extends React.Component {
                 <label htmlFor="synopsis">Synopsis</label>
                 <textarea
                   onChange={this.handleChangeSynopsis}
+                  value={this.state.synopsis}
                   className="form-control"
                   id="synopsis"
                   rows="3"
@@ -140,12 +165,21 @@ class PresentationForm extends React.Component {
               </div>
               <div className="mb-3">
                 <select
+                  onChange={this.handleChangeConference}
+                  value={this.state.conference}
                   required
                   name="conference"
                   id="conference"
                   className="form-select"
                 >
                   <option value="">Choose a conference</option>
+                  {this.state.conferences.map((conference) => {
+                    return (
+                      <option key={conference.id} value={conference.id}>
+                        {conference.name}
+                      </option>
+                    );
+                  })}
                 </select>
               </div>
               <button className="btn btn-primary">Create</button>

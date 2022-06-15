@@ -110,6 +110,7 @@ class ConferenceForm extends React.Component {
               <div className="form-floating mb-3">
                 <input
                   onChange={this.handleChangeName}
+                  value={this.state.name}
                   placeholder="Name"
                   required
                   type="text"
@@ -122,6 +123,7 @@ class ConferenceForm extends React.Component {
               <div className="form-floating mb-3">
                 <input
                   onChange={this.handleChangeStarts}
+                  value={this.state.starts}
                   placeholder="Starts"
                   required
                   type="date"
@@ -134,6 +136,7 @@ class ConferenceForm extends React.Component {
               <div className="form-floating mb-3">
                 <input
                   onChange={this.handleChangeEnds}
+                  value={this.state.ends}
                   placeholder="Ends"
                   required
                   type="date"
@@ -147,6 +150,7 @@ class ConferenceForm extends React.Component {
                 <label htmlFor="description">Description</label>
                 <textarea
                   onChange={this.handleChangeDescription}
+                  value={this.state.description}
                   className="form-control"
                   id="description"
                   rows="3"
@@ -156,6 +160,7 @@ class ConferenceForm extends React.Component {
               <div className="form-floating mb-3">
                 <input
                   onChange={this.handleChangeMaxPresentations}
+                  value={this.state.max_presentations}
                   placeholder="Maximum presentations"
                   required
                   type="number"
@@ -168,6 +173,7 @@ class ConferenceForm extends React.Component {
               <div className="form-floating mb-3">
                 <input
                   onChange={this.handleChangeMaxAttendees}
+                  value={this.state.max_attendees}
                   placeholder="Maximum attendees"
                   required
                   type="number"
@@ -180,6 +186,7 @@ class ConferenceForm extends React.Component {
               <div className="mb-3">
                 <select
                   onChange={this.handleChangeLocation}
+                  value={this.state.location}
                   required
                   name="location"
                   id="location"
